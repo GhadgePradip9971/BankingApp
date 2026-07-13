@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
-import com.bank.dto.BankAccountDTO;
+import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
-import com.bank.exception.DuplicateAccountNumberException;
 import com.bank.repositiory.BankRepository;
+import com.bank.util.AccountNumberGenerator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,31 +18,38 @@ import lombok.extern.slf4j.Slf4j;
 public class BankServiceImpl implements BankService {
 
 	private final BankRepository bankRepository;
+	
+	
+	private final AccountNumberGenerator accountNumberGenerator;
+	
 
 	@Override
-	public BankAccount createAccount(BankAccountDTO bankAccountDTO) {
-		log.info("creating new account with account number: {}", bankAccountDTO.getAccountHolderName());
+	public BankAccount createAccount(OpenAccountDTO openAccountDTO) {
+		  log.info("Creating new account for : {}", openAccountDTO.getAccountHolderName());
 
-		if (bankRepository.existsByAccountNumber(bankAccountDTO.getAccountNumber())) {
+		    // Generate a unique account number
+		    String accountNumber;
 
-			throw new DuplicateAccountNumberException(
-					"Account number already exists: " + bankAccountDTO.getAccountNumber());
-		}
+		    do {
+		        accountNumber = accountNumberGenerator.generateAccountNumber();
+		    } while (bankRepository.existsByAccountNumber(accountNumber));
 
 		BankAccount bankAccount = new BankAccount();
-		bankAccount.setAccountNumber(bankAccountDTO.getAccountNumber());
-		bankAccount.setAccountHolderName(bankAccountDTO.getAccountHolderName());
-		bankAccount.setAccountBalance(bankAccountDTO.getAccountBalance());
-		bankAccount.setAccountStatus(bankAccountDTO.getAccountStatus());
-		bankAccount.setAadharNumber(bankAccountDTO.getAadharNumber());
-		bankAccount.setPhoneNumber(bankAccountDTO.getPhoneNumber());
-		bankAccount.setEmail(bankAccountDTO.getEmail());
-		bankAccount.setAddress(bankAccountDTO.getAddress());
-		bankAccount.setDateOfBirth(bankAccountDTO.getDateOfBirth());
-		bankAccount.setGender(bankAccountDTO.getGender());
+		bankAccount.setAccountNumber(accountNumber);
+		bankAccount.setAccountHolderName(openAccountDTO.getAccountHolderName());
+		bankAccount.setAccountBalance(openAccountDTO.getAccountBalance());
+		bankAccount.setAccountStatus("ACTIVE");
+		bankAccount.setAadharNumber(openAccountDTO.getAadharNumber());
+		bankAccount.setPhoneNumber(openAccountDTO.getPhoneNumber());
+		bankAccount.setEmail(openAccountDTO.getEmail());
+		bankAccount.setAddress(openAccountDTO.getAddress());
+		bankAccount.setDateOfBirth(openAccountDTO.getDateOfBirth());
+		bankAccount.setGender(openAccountDTO.getGender());
 		bankAccount.setCreatedAt(LocalDateTime.now());
-		bankAccount.setUpdatedAt(bankAccountDTO.getUpdatedAt());
-		bankAccount.setRemarks(bankAccountDTO.getRemarks());
+		bankAccount.setUpdatedAt(null);
+		bankAccount.setRemarks(openAccountDTO.getRemarks());
+		
+		log.info("Saving new account with accountNumber: {}", bankAccount.getAccountNumber());
 
 		return bankRepository.save(bankAccount);
 	}

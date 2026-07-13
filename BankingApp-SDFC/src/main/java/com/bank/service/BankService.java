@@ -1,12 +1,14 @@
 package com.bank.service;
 
-import com.bank.dto.BankAccountDTO;
+import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
 
 public interface BankService {
 	
-	 BankAccount createAccount(BankAccountDTO bankAccountDTO);
+	 BankAccount createAccount(OpenAccountDTO openAccountDTO);
 
+	 
+	 
 	 
 	 
 	 

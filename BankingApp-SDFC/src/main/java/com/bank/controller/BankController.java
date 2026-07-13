@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.bank.dto.BankAccountDTO;
+import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
 import com.bank.service.BankService;
 
@@ -38,16 +38,16 @@ public class BankController {
 	public String showNewAccountForm(Model model) {
 		
 		log.info("New Account Form Accessed");
-		 model.addAttribute("bankAccountDTO", new BankAccountDTO()); 
+		 model.addAttribute("openAccountDTO", new OpenAccountDTO()); 
 		return "openaccount";
 	}
 	
 	@PostMapping("/newacc")
-	public String createNewAccount(@ModelAttribute  BankAccountDTO bankAccountDTO, Model model,  RedirectAttributes redirectAttribute) {
-		log.info("Creating new account with accountHolder Name: {}", bankAccountDTO.getAccountHolderName());
+	public String createNewAccount(@ModelAttribute  OpenAccountDTO openAccountDTO, Model model,  RedirectAttributes redirectAttribute) {
+		log.info("Creating new account with accountHolder Name: {}", openAccountDTO.getAccountHolderName());
 
 		try {
-			BankAccount createdAccount = bankService.createAccount(bankAccountDTO);
+			BankAccount createdAccount = bankService.createAccount(openAccountDTO);
 			 redirectAttribute.addFlashAttribute("success", 
 		                "Account created! Number: " + createdAccount.getAccountNumber());
 			 } catch (Exception e) {
