@@ -48,15 +48,18 @@ public class BankController {
 
 		try {
 			BankAccount createdAccount = bankService.createAccount(openAccountDTO);
-			 redirectAttribute.addFlashAttribute("success", 
-		                "Account created! Number: " + createdAccount.getAccountNumber());
+			 redirectAttribute.addFlashAttribute("success",
+		                "Account created successfully! Account Number: " + createdAccount.getAccountNumber()+" | Account Holder Name: "+createdAccount.getAccountHolderName());
 			 } catch (Exception e) {
 			log.error("Error creating account: {}", e.getMessage());
 			 redirectAttribute.addFlashAttribute("error", e.getMessage());
+			 }
 	            return "redirect:/bank/newacc";
-		}
+		
 
-		return "openaccount";
+	
 	}
 
+	
+	
 }
