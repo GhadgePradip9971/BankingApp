@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
+import com.bank.exception.AccountInactiveException;
+import com.bank.exception.AccountNotFoundException;
 import com.bank.exception.CustomerAlreadyExistsException;
 import com.bank.repositiory.BankRepository;
 import com.bank.util.AccountNumberGenerator;
@@ -19,28 +21,25 @@ import lombok.extern.slf4j.Slf4j;
 public class BankServiceImpl implements BankService {
 
 	private final BankRepository bankRepository;
-	
-	
+
 	private final AccountNumberGenerator accountNumberGenerator;
-	
 
 	@Override
 	public BankAccount createAccount(OpenAccountDTO openAccountDTO) {
-		
-		
-		if(bankRepository.existsByAadharNumber(openAccountDTO.getAadharNumber())) {
-			throw new CustomerAlreadyExistsException("Customer with Aadhar number " + openAccountDTO.getAadharNumber() + " already exists.");
+
+		if (bankRepository.existsByAadharNumber(openAccountDTO.getAadharNumber())) {
+			throw new CustomerAlreadyExistsException(
+					"Customer with Aadhar number " + openAccountDTO.getAadharNumber() + " already exists.");
 		}
-		
-		
-		  log.info("Creating new account for : {}", openAccountDTO.getAccountHolderName());
 
-		    // Generate a unique account number
-		    String accountNumber;
+		log.info("Creating new account for : {}", openAccountDTO.getAccountHolderName());
 
-		    do {
-		        accountNumber = accountNumberGenerator.generateAccountNumber();
-		    } while (bankRepository.existsByAccountNumber(accountNumber));
+		// Generate a unique account number
+		String accountNumber;
+
+		do {
+			accountNumber = accountNumberGenerator.generateAccountNumber();
+		} while (bankRepository.existsByAccountNumber(accountNumber));
 
 		BankAccount bankAccount = new BankAccount();
 		bankAccount.setAccountNumber(accountNumber);
@@ -57,7 +56,7 @@ public class BankServiceImpl implements BankService {
 		bankAccount.setCreatedAt(LocalDateTime.now());
 		bankAccount.setUpdatedAt(LocalDateTime.now());
 		bankAccount.setRemarks(openAccountDTO.getRemarks());
-		
+
 		log.info("Saving new account with accountNumber: {}", bankAccount.getAccountNumber());
 
 		return bankRepository.save(bankAccount);
@@ -73,6 +72,24 @@ public class BankServiceImpl implements BankService {
 	public Double getTotalBalance() {
 		// TODO Auto-generated method stub
 		return bankRepository.getTotalBalance();
+	}
+
+	@Override
+	public Double checkBalance(String accountNumber) {
+		
+		log.info("Checking balance for account number: {}", accountNumber);
+		
+		
+		BankAccount bankAccount = bankRepository.findByAccountNumber(accountNumber).orElseThrow(()-> new AccountNotFoundException("Account with number " + accountNumber + " not found."));
+		
+
+	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+	        throw new AccountInactiveException("Your account is inactive.");
+	    }
+
+	    return bankAccount.getAccountBalance();
+		
+		
 	}
 
 }

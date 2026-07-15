@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>SDFC BANK · Balance</title>
+<link rel="icon" th:href="@{/images/bank.png}" type="image/png">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="form-container">
+
+		<div class="form-card">
+
+
+			<div class="success-message" th:if="${success}" id="successMessage">
+				<p th:text="${success}"></p>
+			</div>
+			<div class="error-message" th:if="${error}" id="errorMessage">
+				<p th:text="${error}"></p>
+			</div>
+			<h2>Balance Inquiry</h2>
+
+
+
+			<form th:action="@{/bank/checkbalance}" th:object="${balanceDTO}"
+				method="post">
+
+				<label>Account Number</label> <input type="text"
+					th:field="*{accountNumber}" placeholder="Enter Account Number" required>
+
+		<!-- 		<span class="field-error"
+      th:if="${#fields.hasErrors('accountNumber')}"
+      th:errors="*{accountNumber}">
+</span> -->
+
+				<button type="submit">Check Balance</button>
+
+			</form>
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

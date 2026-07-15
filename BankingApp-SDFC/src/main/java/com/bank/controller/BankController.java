@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bank.dto.BalanceDTO;
 import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
 import com.bank.service.BankService;
@@ -80,6 +81,29 @@ public class BankController {
 	    return "redirect:/bank/newacc";
 	}
 
+	
+	@GetMapping("/checkbalance")
+	public String showBalanceForm(Model model) {
+		log.info("Balance Check Form Accessed");
+		
+	model.addAttribute("balanceDTO", new BalanceDTO());
+		return "balance";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
