@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bank.dto.BalanceDTO;
+import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
 import com.bank.service.BankService;
@@ -126,7 +127,45 @@ public class BankController {
 	
 	
 	
+	@GetMapping("/deposit")
+	public String showDepositForm(Model model) {
+		log.info("Deposit Form Accessed");
+		 if (!model.containsAttribute("deposit")) {
+	            model.addAttribute("depositDTO", new DepositDTO());
+	        }
+		return "depositform";
+	}
 	
+	
+	@PostMapping("/deposit")
+	public String deposit(
+	        @Valid @ModelAttribute("depositDTO") DepositDTO depositDTO,
+	        BindingResult result,
+	        Model model,
+	        RedirectAttributes redirectAttribute) {
+
+	    log.info("Depositing amount: {} to account number: {}", depositDTO.getDepositAmount(), depositDTO.getAccountNumber());
+
+	    // Validation failed
+	    if (result.hasErrors()) {
+	        return "depositform";
+	    }
+
+	    try {
+
+	        BankAccount updatedAccount = bankService.deposit(depositDTO);
+
+	        redirectAttribute.addFlashAttribute("success", "Deposit successful! New Balance: " + updatedAccount.getAccountBalance());
+
+	    } catch (Exception e) {
+
+	        log.error("Error during deposit: {}", e.getMessage());
+
+	        redirectAttribute.addFlashAttribute("error", e.getMessage());
+	    }
+
+	    return "redirect:/bank/deposit";
+	}
 	
 	
 	

@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
+import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
 import com.bank.exception.AccountInactiveException;
 import com.bank.exception.AccountNotFoundException;
 import com.bank.exception.CustomerAlreadyExistsException;
+import com.bank.exception.InvalidAmountException;
 import com.bank.repositiory.BankRepository;
 import com.bank.util.AccountNumberGenerator;
 
@@ -93,5 +95,34 @@ public class BankServiceImpl implements BankService {
 		
 		
 	}
+
+	@Override
+	public BankAccount deposit(DepositDTO depositDTO) {
+		log.info("Depositing amount: {} to account number: {}", depositDTO.getDepositAmount(), depositDTO.getAccountNumber());
+		log.info("Depositing amount aadhar number: {}", depositDTO.getAadharNumber());
+		
+		
+		
+
+
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
