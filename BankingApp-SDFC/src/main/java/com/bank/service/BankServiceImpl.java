@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.bank.dto.OpenAccountDTO;
 import com.bank.entity.BankAccount;
+import com.bank.exception.CustomerAlreadyExistsException;
 import com.bank.repositiory.BankRepository;
 import com.bank.util.AccountNumberGenerator;
 
@@ -25,6 +26,13 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public BankAccount createAccount(OpenAccountDTO openAccountDTO) {
+		
+		
+		if(bankRepository.existsByAadharNumber(openAccountDTO.getAadharNumber())) {
+			throw new CustomerAlreadyExistsException("Customer with Aadhar number " + openAccountDTO.getAadharNumber() + " already exists.");
+		}
+		
+		
 		  log.info("Creating new account for : {}", openAccountDTO.getAccountHolderName());
 
 		    // Generate a unique account number
@@ -37,6 +45,7 @@ public class BankServiceImpl implements BankService {
 		BankAccount bankAccount = new BankAccount();
 		bankAccount.setAccountNumber(accountNumber);
 		bankAccount.setAccountHolderName(openAccountDTO.getAccountHolderName());
+		bankAccount.setAccountType(openAccountDTO.getAccountType());
 		bankAccount.setAccountBalance(openAccountDTO.getAccountBalance());
 		bankAccount.setAccountStatus("ACTIVE");
 		bankAccount.setAadharNumber(openAccountDTO.getAadharNumber());
@@ -46,7 +55,7 @@ public class BankServiceImpl implements BankService {
 		bankAccount.setDateOfBirth(openAccountDTO.getDateOfBirth());
 		bankAccount.setGender(openAccountDTO.getGender());
 		bankAccount.setCreatedAt(LocalDateTime.now());
-		bankAccount.setUpdatedAt(null);
+		bankAccount.setUpdatedAt(LocalDateTime.now());
 		bankAccount.setRemarks(openAccountDTO.getRemarks());
 		
 		log.info("Saving new account with accountNumber: {}", bankAccount.getAccountNumber());

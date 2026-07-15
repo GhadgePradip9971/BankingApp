@@ -336,6 +336,15 @@ body {
     border: 1px solid #f5c6cb;
     border-radius: 5px;
 }
+/*field error for boot validations*/
+.field-error {
+    display: block;
+    margin-top: 5px;
+    color: #d32f2f;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
 
 
 

@@ -11,103 +11,124 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}"></div>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-	
-	
+	<div th:replace="~{fragments/header :: header}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
 	<div class="form-container">
 
-    <div class="form-card">
-    
-    
-    <div class="success-message" th:if="${success}" id="successMessage">
-		<p th:text="${success}"></p>
-		</div>
-		<div class="error-message" th:if="${error}" id="errorMessage">
-		<p th:text="${error}"></p>
-		</div>
-	
-	<h2>Open New Bank Account</h2>
-	<form th:action="@{/bank/newacc}" th:object="${openAccountDTO}"
-		method="post" >
-		<table>
-			<tr>
-				<td><label>Account Holder Name</label></td>
-				<td><input type="text" th:field="*{accountHolderName}"
-					placeholder="Enter Full Name" required></td>
-			</tr>
-			<tr>
-				<td><label>Account Type</label></td>
-				<td><select th:field="*{accountType}" required>
-						<option value="">-- Select Account Type --</option>
-						<option value="Savings">Savings</option>
-						<option value="Current">Current</option>
-						<option value="Salary">Salary</option>
-						<option value="Fixed Deposit">Fixed Deposit</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td><label>Opening Balance</label></td>
-				<td><input type="number" th:field="*{accountBalance}" min="500"
-					step="0.01" placeholder="Enter Opening Balance" required></td>
-			</tr>
-			<tr>
-				<td><label>Aadhar Number</label></td>
-				<td><input type="text" th:field="*{aadharNumber}"
-					maxlength="12" placeholder="Enter 12 Digit Aadhar Number" required>
-				</td>
-			</tr>
-			<tr>
-				<td><label>Phone Number</label></td>
-				<td><input type="text" th:field="*{phoneNumber}" maxlength="10"
-					placeholder="Enter Mobile Number" required></td>
-			</tr>
-			<tr>
-				<td><label>Email</label></td>
-				<td><input type="email" th:field="*{email}"
-					placeholder="Enter Email Address"></td>
-			</tr>
-			<tr>
-				<td><label>Address</label></td>
-				<td><textarea th:field="*{address}" rows="4" cols="30"
-						placeholder="Enter Address"></textarea></td>
-			</tr>
-			<tr>
-				<td><label>Date of Birth</label></td>
-				<td><input type="date" th:field="*{dateOfBirth}" required>
-				</td>
-			</tr>
-			<tr>
-				<td><label>Gender</label></td>
-				<td><input type="radio" th:field="*{gender}" value="Male">
-					Male <input type="radio" th:field="*{gender}" value="Female">
-					Female <input type="radio" th:field="*{gender}" value="Other">
-					Other</td>
-			</tr>
-			<tr>
-				<td>
-				<label>Remarks</label>
-				</td>
-				<td><textarea th:field="*{remarks}" rows="3" cols="30"
-						placeholder="Enter Remarks (Optional)">
+		<div class="form-card">
+
+
+			<div class="success-message" th:if="${success}" id="successMessage">
+				<p th:text="${success}"></p>
+			</div>
+			<div class="error-message" th:if="${error}" id="errorMessage">
+				<p th:text="${error}"></p>
+			</div>
+
+			<h2>Open New Bank Account</h2>
+			<form th:action="@{/bank/newacc}" th:object="${openAccountDTO}"
+				method="post">
+				<table>
+					<tr>
+						<td><label>Account Holder Name</label></td>
+						<td><input type="text" th:field="*{accountHolderName}"
+							placeholder="Enter Full Name" required> <span
+							class="field-error"
+							th:if="${#fields.hasErrors('accountHolderName')}"
+							th:errors="*{accountHolderName}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Account Type</label></td>
+						<td><select th:field="*{accountType}" required>
+								<option value="">-- Select Account Type --</option>
+								<option value="Savings">Savings</option>
+								<option value="Current">Current</option>
+								<option value="Salary">Salary</option>
+								<option value="Fixed Deposit">Fixed Deposit</option>
+						</select> <span class="field-error"
+							th:if="${#fields.hasErrors('accountType')}"
+							th:errors="*{accountType}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Opening Balance</label></td>
+						<td><input type="number" th:field="*{accountBalance}"
+							min="500" step="0.01" placeholder="Enter Opening Balance"
+							required> <span class="field-error"
+							th:if="${#fields.hasErrors('accountBalance')}"
+							th:errors="*{accountBalance}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Aadhar Number</label></td>
+						<td><input type="text" th:field="*{aadharNumber}"
+							maxlength="12" placeholder="Enter 12 Digit Aadhar Number"
+							required> <span class="field-error"
+							th:if="${#fields.hasErrors('aadharNumber')}"
+							th:errors="*{aadharNumber}"> </span></td>
+
+					</tr>
+					<tr>
+						<td><label>Phone Number</label></td>
+						<td><input type="text" th:field="*{phoneNumber}"
+							maxlength="10" placeholder="Enter Mobile Number" required>
+							<span class="field-error"
+							th:if="${#fields.hasErrors('phoneNumber')}"
+							th:errors="*{phoneNumber}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Email</label></td>
+						<td><input type="email" th:field="*{email}"
+							placeholder="Enter Email Address"> <span
+							class="field-error" th:if="${#fields.hasErrors('email')}"
+							th:errors="*{email}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Address</label></td>
+						<td><textarea th:field="*{address}" rows="4" cols="30"
+								placeholder="Enter Address"></textarea> <span
+							class="field-error" th:if="${#fields.hasErrors('address')}"
+							th:errors="*{address}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Date of Birth</label></td>
+						<td><input type="date" th:field="*{dateOfBirth}" required>
+
+							<span class="field-error"
+							th:if="${#fields.hasErrors('dateOfBirth')}"
+							th:errors="*{dateOfBirth}"> </span></td>
+					</tr>
+					<tr>
+						<td><label>Gender</label></td>
+						<td><input type="radio" th:field="*{gender}" value="Male">
+							Male <input type="radio" th:field="*{gender}" value="Female">
+							Female <input type="radio" th:field="*{gender}" value="Other">
+							Other <span class="field-error"
+							th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">
+						</span></td>
+					</tr>
+					<tr>
+						<td><label>Remarks</label></td>
+						<td><textarea th:field="*{remarks}" rows="3" cols="30"
+								placeholder="Enter Remarks (Optional)">
 	  </textarea></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<button type="submit">Open Account</button>
-					<button type="reset">Reset</button>
-				</td>
-			</tr>
-		</table>
-	</form>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<button type="submit">Open Account</button>
+							<button type="reset">Reset</button>
+						</td>
+					</tr>
+				</table>
+			</form>
 
-</div>
-</div>
-<div th:replace="~{fragments/footer :: footer}"></div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
 
 
 
-<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
 
 
 </body>

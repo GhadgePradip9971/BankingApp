@@ -17,6 +17,7 @@ public interface BankRepository extends JpaRepository<BankAccount, Integer> {
 	List<BankAccount> findByAccountHolderNameContainingIgnoreCase(String accountHolderName);
 	
 	boolean existsByAccountNumber(String accountNumber);
+	boolean existsByAadharNumber(String aadharNumber);
 	
 	@Query ("SELECT SUM(b.accountBalance) FROM BankAccount b WHERE b.accountStatus = 'ACTIVE'")
 	Double getTotalBalance();
