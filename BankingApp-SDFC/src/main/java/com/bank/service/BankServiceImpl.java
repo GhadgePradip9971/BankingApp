@@ -75,13 +75,15 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public Double checkBalance(String accountNumber) {
+	public Double checkBalance(String accountNumber, String phoneNumber, String aadharNumber) {
 		
 		log.info("Checking balance for account number: {}", accountNumber);
+		log.info("Checking balance for phone number: {}", phoneNumber);
+		log.info("Checking balance for aadhar number: {}", aadharNumber);
 		
 		
-		BankAccount bankAccount = bankRepository.findByAccountNumber(accountNumber).orElseThrow(()-> new AccountNotFoundException("Account with number " + accountNumber + " not found."));
-		
+		BankAccount bankAccount = bankRepository.findByAccountNumberAndPhoneNumberAndAadharNumber(accountNumber, phoneNumber, aadharNumber)
+	            .orElseThrow(() -> new AccountNotFoundException("\"Invalid Account Number, Phone Number or Aadhaar Number.\""));		
 
 	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
 	        throw new AccountInactiveException("Your account is inactive.");

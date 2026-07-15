@@ -85,11 +85,44 @@ public class BankController {
 	@GetMapping("/checkbalance")
 	public String showBalanceForm(Model model) {
 		log.info("Balance Check Form Accessed");
-		
-	model.addAttribute("balanceDTO", new BalanceDTO());
+		  if (!model.containsAttribute("balanceDTO")) {
+		        model.addAttribute("balanceDTO", new BalanceDTO());
+		    }
 		return "balance";
 	}
 	
+	
+	@PostMapping("/checkbalance")
+	public String checkBalance(
+	        @Valid @ModelAttribute("balanceDTO") BalanceDTO balanceDTO,
+	        BindingResult result,
+	        Model model,
+	        RedirectAttributes redirectAttribute) {
+
+	    log.info("Checking balance for account number: {}", balanceDTO.getAccountNumber());
+
+	    // Validation failed
+	    if (result.hasErrors()) {
+	        return "balance";
+	    }
+
+	    try {
+
+	        double balance = bankService.checkBalance(balanceDTO.getAccountNumber(), balanceDTO.getPhoneNumber(), balanceDTO.getAadharNumber());
+
+	        redirectAttribute.addFlashAttribute("success", "Balance fetched successfully!");
+	        redirectAttribute.addFlashAttribute("accountNumber", balanceDTO.getAccountNumber());
+	        redirectAttribute.addFlashAttribute("balance", balance);
+
+	    } catch (Exception e) {
+
+	        log.error("Error checking balance: {}", e.getMessage());
+
+	        redirectAttribute.addFlashAttribute("error", e.getMessage());
+	    }
+
+	    return "redirect:/bank/checkbalance";
+	}
 	
 	
 	

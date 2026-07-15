@@ -7,7 +7,7 @@ public interface BankService {
 	
 	 BankAccount createAccount(OpenAccountDTO openAccountDTO);
 	 
-	 Double checkBalance(String accountNumber);
+		Double checkBalance(String accountNumber, String phoneNumber, String aadharNumber);
 
 	 
 	 
@@ -17,6 +17,7 @@ public interface BankService {
 	 // Get Statistics
 	    Long getTotalAccounts();
 	    Double getTotalBalance();
+
 	 
 
 }

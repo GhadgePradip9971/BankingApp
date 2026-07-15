@@ -12,7 +12,7 @@ import com.bank.entity.BankAccount;
 @Repository
 public interface BankRepository extends JpaRepository<BankAccount, Integer> {
 	
-	Optional<BankAccount> findByAccountNumber(String accountNumber);
+	Optional<BankAccount> findByAccountNumberAndPhoneNumberAndAadharNumber(String accountNumber,String phoneNumber,String aadharNumber);
 	
 	List<BankAccount> findByAccountHolderNameContainingIgnoreCase(String accountHolderName);
 	

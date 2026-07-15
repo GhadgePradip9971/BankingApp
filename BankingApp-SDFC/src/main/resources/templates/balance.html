@@ -21,6 +21,8 @@
 			<div class="error-message" th:if="${error}" id="errorMessage">
 				<p th:text="${error}"></p>
 			</div>
+
+
 			<h2>Balance Inquiry</h2>
 
 
@@ -29,22 +31,47 @@
 				method="post">
 
 				<label>Account Number</label> <input type="text"
-					th:field="*{accountNumber}" placeholder="Enter Account Number" required>
+					th:field="*{accountNumber}" placeholder="Enter Account Number"
+					required> <span class="field-error"
+					th:if="${#fields.hasErrors('accountNumber')}"
+					th:errors="*{accountNumber}"> </span> <br> <label>Phone
+					Number</label> <input type="text" th:field="*{phoneNumber}"
+					placeholder="Enter Phone Number" required> <span
+					class="field-error" th:if="${#fields.hasErrors('phoneNumber')}"
+					th:errors="*{phoneNumber}"></span> <br> <label>Aadhar
+					No</label> <input type="text" th:field="*{aadharNumber}"
+					placeholder="Enter Aadhar Number" required> <span
+					class="field-error" th:if="${#fields.hasErrors('aadharNumber')}"
+					th:errors="*{aadharNumber}"></span> <br>
 
-		<!-- 		<span class="field-error"
-      th:if="${#fields.hasErrors('accountNumber')}"
-      th:errors="*{accountNumber}">
-</span> -->
+
 
 				<button type="submit">Check Balance</button>
 
 			</form>
 
 
+			<!-- Balance Result -->
+			<div class="balance-card" th:if="${balance != null}">
 
+				<h3>Account Details</h3>
 
+				<table class="balance-table">
 
+					<tr>
+						<td><strong>Account Number</strong></td>
+						<td th:text="${accountNumber}"></td>
+					</tr>
 
+					<tr>
+						<td><strong>Available Balance</strong></td>
+						<td>₹ <span th:text="${balance}"></span>
+						</td>
+					</tr>
+
+				</table>
+
+			</div>
 
 
 
