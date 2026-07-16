@@ -36,146 +36,129 @@ public class BankController {
 
 		return "home";
 	}
-	
-	
+
 	@GetMapping("/newacc")
 	public String showNewAccountForm(Model model) {
-		
+
 		log.info("New Account Form Accessed");
-		 model.addAttribute("openAccountDTO", new OpenAccountDTO()); 
+		model.addAttribute("openAccountDTO", new OpenAccountDTO());
 		return "openaccount";
 	}
-	
+
 	@PostMapping("/newacc")
-	public String createNewAccount(
-	        @Valid @ModelAttribute("openAccountDTO") OpenAccountDTO openAccountDTO,
-	        BindingResult result,
-	        Model model,
-	        RedirectAttributes redirectAttribute) {
+	public String createNewAccount(@Valid @ModelAttribute("openAccountDTO") OpenAccountDTO openAccountDTO,
+			BindingResult result, Model model, RedirectAttributes redirectAttribute) {
 
-	    log.info("Creating new account with accountHolder Name: {}",
-	            openAccountDTO.getAccountHolderName());
+		log.info("Creating new account with accountHolder Name: {}", openAccountDTO.getAccountHolderName());
 
-	    // Validation failed
-	    if (result.hasErrors()) {
-	        return "openaccount";
-	    }
+		// Validation failed
+		if (result.hasErrors()) {
+			return "openaccount";
+		}
 
-	    try {
+		try {
 
-	        BankAccount createdAccount = bankService.createAccount(openAccountDTO);
+			BankAccount createdAccount = bankService.createAccount(openAccountDTO);
 
-	        redirectAttribute.addFlashAttribute(
-	                "success",
-	                "Account created successfully! Account Number: "
-	                        + createdAccount.getAccountNumber()
-	                        + " | Account Holder Name: "
-	                        + createdAccount.getAccountHolderName());
+			redirectAttribute.addFlashAttribute("success",
+					"Account created successfully! Account Number: " + createdAccount.getAccountNumber()
+							+ " | Account Holder Name: " + createdAccount.getAccountHolderName());
 
-	    } catch (Exception e) {
+		} catch (Exception e) {
 
-	        log.error("Error creating account: {}", e.getMessage());
+			log.error("Error creating account: {}", e.getMessage());
 
-	        redirectAttribute.addFlashAttribute("error", e.getMessage());
-	    }
+			redirectAttribute.addFlashAttribute("error", e.getMessage());
+		}
 
-	    return "redirect:/bank/newacc";
+		return "redirect:/bank/newacc";
 	}
 
-	
 	@GetMapping("/checkbalance")
 	public String showBalanceForm(Model model) {
 		log.info("Balance Check Form Accessed");
-		  if (!model.containsAttribute("balanceDTO")) {
-		        model.addAttribute("balanceDTO", new BalanceDTO());
-		    }
+		if (!model.containsAttribute("balanceDTO")) {
+			model.addAttribute("balanceDTO", new BalanceDTO());
+		}
 		return "balance";
 	}
-	
-	
+
 	@PostMapping("/checkbalance")
-	public String checkBalance(
-	        @Valid @ModelAttribute("balanceDTO") BalanceDTO balanceDTO,
-	        BindingResult result,
-	        Model model,
-	        RedirectAttributes redirectAttribute) {
+	public String checkBalance(@Valid @ModelAttribute("balanceDTO") BalanceDTO balanceDTO, BindingResult result,
+			Model model, RedirectAttributes redirectAttribute) {
 
-	    log.info("Checking balance for account number: {}", balanceDTO.getAccountNumber());
+		log.info("Checking balance for account number: {}", balanceDTO.getAccountNumber());
 
-	    // Validation failed
-	    if (result.hasErrors()) {
-	        return "balance";
-	    }
+		// Validation failed
+		if (result.hasErrors()) {
+			return "balance";
+		}
 
-	    try {
+		try {
 
-	        double balance = bankService.checkBalance(balanceDTO.getAccountNumber(), balanceDTO.getPhoneNumber(), balanceDTO.getAadharNumber());
+			double balance = bankService.checkBalance(balanceDTO.getAccountNumber(), balanceDTO.getPhoneNumber(),
+					balanceDTO.getAadharNumber());
 
-	        redirectAttribute.addFlashAttribute("success", "Balance fetched successfully!");
-	        redirectAttribute.addFlashAttribute("accountNumber", balanceDTO.getAccountNumber());
-	        redirectAttribute.addFlashAttribute("balance", balance);
+			redirectAttribute.addFlashAttribute("success", "Balance fetched successfully!");
+			redirectAttribute.addFlashAttribute("accountNumber", balanceDTO.getAccountNumber());
+			redirectAttribute.addFlashAttribute("balance", balance);
 
-	    } catch (Exception e) {
+		} catch (Exception e) {
 
-	        log.error("Error checking balance: {}", e.getMessage());
+			log.error("Error checking balance: {}", e.getMessage());
 
-	        redirectAttribute.addFlashAttribute("error", e.getMessage());
-	    }
+			redirectAttribute.addFlashAttribute("error", e.getMessage());
+		}
 
-	    return "redirect:/bank/checkbalance";
+		return "redirect:/bank/checkbalance";
 	}
-	
-	
-	
+
 	@GetMapping("/deposit")
 	public String showDepositForm(Model model) {
 		log.info("Deposit Form Accessed");
-		 if (!model.containsAttribute("deposit")) {
-	            model.addAttribute("depositDTO", new DepositDTO());
-	        }
+		if (!model.containsAttribute("deposit")) {
+			model.addAttribute("depositDTO", new DepositDTO());
+		}
 		return "depositform";
 	}
-	
-	
+
 	@PostMapping("/deposit")
-	public String deposit(
-	        @Valid @ModelAttribute("depositDTO") DepositDTO depositDTO,
-	        BindingResult result,
-	        Model model,
-	        RedirectAttributes redirectAttribute) {
+	public String deposit(@Valid @ModelAttribute("depositDTO") DepositDTO depositDTO, BindingResult result, Model model,
+			RedirectAttributes redirectAttribute) {
 
-	    log.info("Depositing amount: {} to account number: {}", depositDTO.getDepositAmount(), depositDTO.getAccountNumber());
+		log.info("Depositing amount: {} to account number: {}", depositDTO.getDepositAmount(),
+				depositDTO.getAccountNumber());
 
-	    // Validation failed
-	    if (result.hasErrors()) {
-	        return "depositform";
-	    }
+		// Validation failed
+		if (result.hasErrors()) {
+			return "depositform";
+		}
 
-	    try {
+		try {
 
-	        BankAccount updatedAccount = bankService.deposit(depositDTO);
+			BankAccount updatedAccount = bankService.deposit(depositDTO);
 
-	        redirectAttribute.addFlashAttribute("success", "Deposit successful! New Balance: " + updatedAccount.getAccountBalance());
+			redirectAttribute.addFlashAttribute("success",
+					"Deposit successful! New Balance: ₹" + updatedAccount.getAccountBalance());
 
-	    } catch (Exception e) {
+			redirectAttribute.addFlashAttribute("accountHolderName", updatedAccount.getAccountHolderName());
 
-	        log.error("Error during deposit: {}", e.getMessage());
+			redirectAttribute.addFlashAttribute("accountNumber", updatedAccount.getAccountNumber());
 
-	        redirectAttribute.addFlashAttribute("error", e.getMessage());
-	    }
+			redirectAttribute.addFlashAttribute("aadharNumber", updatedAccount.getAadharNumber());
 
-	    return "redirect:/bank/deposit";
+			redirectAttribute.addFlashAttribute("depositAmount", depositDTO.getDepositAmount());
+
+			redirectAttribute.addFlashAttribute("updatedBalance", updatedAccount.getAccountBalance());
+
+		} catch (Exception e) {
+
+			log.error("Error during deposit: {}", e.getMessage());
+
+			redirectAttribute.addFlashAttribute("error", e.getMessage());
+		}
+
+		return "redirect:/bank/deposit";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

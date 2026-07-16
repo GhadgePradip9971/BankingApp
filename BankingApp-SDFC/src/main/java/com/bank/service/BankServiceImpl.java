@@ -98,15 +98,23 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public BankAccount deposit(DepositDTO depositDTO) {
-		log.info("Depositing amount: {} to account number: {}", depositDTO.getDepositAmount(), depositDTO.getAccountNumber());
-		log.info("Depositing amount aadhar number: {}", depositDTO.getAadharNumber());
-		
-		
+		log.info("Deposit Dto values :{}",depositDTO);
+	
+		BankAccount bankAccount=bankRepository.findByAccountNumberAndAadharNumber(depositDTO.getAccountNumber(), depositDTO.getAadharNumber())
+	            .orElseThrow(() -> new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
+
+	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+	        throw new AccountInactiveException("Your account is inactive.");
+	    }
+
+	    bankAccount.setAccountBalance(bankAccount.getAccountBalance() + depositDTO.getDepositAmount());
+	    bankAccount.setUpdatedAt(LocalDateTime.now());
+
+	  return  bankRepository.save(bankAccount);
 		
 
 
 		
-		return null;
 	}
 	
 	

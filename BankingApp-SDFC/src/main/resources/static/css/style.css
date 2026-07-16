@@ -345,6 +345,28 @@ body {
     font-weight: 600;
     line-height: 1.4;
 }
+/* table designuing for output deposit table for withdrwaw*/
+.account-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
 
+.account-info-table th,
+.account-info-table td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.account-info-table th {
+    width: 40%;
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.account-info-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
 
 
