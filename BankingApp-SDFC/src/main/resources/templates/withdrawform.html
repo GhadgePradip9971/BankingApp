@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SDFC Bank.Withdraw</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" th:href="@{/images/bank.png}" type="image/png">
+</head>
+<body>
+
+	<div th:replace="~{fragments/header :: header}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="form-container">
+
+		<div class="form-card">
+
+			<h2>Withdraw Money</h2>
+
+			<form th:action="@{/bank/withdraw}" th:object="${withdrawDTO}"
+				method="post">
+
+				<label>Account Number</label> <input type="text"
+					th:field="*{accountNumber}" placeholder="Enter Account Number"
+					required> <span class="field-error"
+					th:if="${#fields.hasErrors('accountNumber')}"
+					th:errors="*{accountNumber}"></span> <br> <label>Withdraw
+					Amount</label> <input type="number" th:field="*{withdrawAmount}" min="1"
+					step="0.01" placeholder="Enter Deposit Amount" required> <span
+					class="field-error" th:if="${#fields.hasErrors('withdrawAmount')}"
+					th:errors="*{withdrawAmount}"></span> <br> <label>Aadhar
+					Number</label> <input type="text" th:field="*{aadharNumber}"
+					placeholder="Enter Aadhar Number" required> <span
+					class="field-error" th:if="${#fields.hasErrors('aadharNumber')}"
+					th:errors="*{aadharNumber}"></span>
+
+
+
+
+				<button type="submit">Withdraw</button>
+			</form>
+
+
+
+		</div>
+	</div>
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

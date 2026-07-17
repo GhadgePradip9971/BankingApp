@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bank.dto.BalanceDTO;
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
+import com.bank.dto.WithdrawDTO;
 import com.bank.entity.BankAccount;
 import com.bank.service.BankService;
 
@@ -160,5 +161,28 @@ public class BankController {
 
 		return "redirect:/bank/deposit";
 	}
+	
+	
+	@GetMapping("/withdraw")
+	public String withdrawform(Model model) {
+		log.info("withdraw form accessed!!");
+		
+		model.addAttribute("withdrawDTO",new WithdrawDTO());
+		return"withdrawform";
+	}
+	
+	@PostMapping("/withdraw")
+	public  String withdraw(@Valid @ModelAttribute("withdrawDTO") WithdrawDTO withdrawDTO, BindingResult result, Model model,
+			RedirectAttributes redirectAttribute ) {
+		
+		log.info("Depositing amount: {} to account number: {}", withdrawDTO.getWithdrawAmount(),
+				withdrawDTO.getAccountNumber());
+		
+		
+		
+		
+		return "redirect:/bank/withdraw";		
+	}
+	
 
 }

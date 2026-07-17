@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
+import com.bank.dto.WithdrawDTO;
 import com.bank.entity.BankAccount;
 import com.bank.exception.AccountInactiveException;
 import com.bank.exception.AccountNotFoundException;
@@ -115,6 +116,15 @@ public class BankServiceImpl implements BankService {
 
 
 		
+	}
+
+	@Override
+	public BankAccount withdraw(WithdrawDTO withdrawDTO) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		return null;
 	}
 	
 	
