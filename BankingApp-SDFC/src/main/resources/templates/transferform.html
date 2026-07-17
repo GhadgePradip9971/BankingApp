@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SDFC Bank.Withdraw</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="icon" th:href="@{/images/bank.png}" type="image/png">
+</head>
+<body>
+
+	<div th:replace="~{fragments/header :: header}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="form-container">
+
+		<div class="form-card">
+
+			<h2>Transfer Money</h2>
+
+			<form th:action="@{/bank/transfer}" th:object="${transferDTO}"
+				method="post">
+				
+				<label>Transfer Money</label>
+				
+				
+				
+				
+				
+				
+				</form>
+		</div>
+	</div>
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

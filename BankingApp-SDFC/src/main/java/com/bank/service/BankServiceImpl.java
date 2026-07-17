@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
+import com.bank.dto.TransferDTO;
 import com.bank.dto.WithdrawDTO;
 import com.bank.entity.BankAccount;
 import com.bank.exception.AccountInactiveException;
@@ -151,6 +152,12 @@ public class BankServiceImpl implements BankService {
 		
 		
 		return bankRepository.save(bankAccount);
+	}
+
+	@Override
+	public BankAccount transfer(TransferDTO transferDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -205,4 +205,13 @@ public class BankController {
 		return "redirect:/bank/withdraw";
 	}
 
+	
+	
+	@GetMapping("/transfer")
+	public String transferPage(Model model) {
+		log.info("transfer page accessed");
+		
+		return "transferform";
+		
+	}
 }
