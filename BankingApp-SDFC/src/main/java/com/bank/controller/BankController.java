@@ -161,28 +161,48 @@ public class BankController {
 
 		return "redirect:/bank/deposit";
 	}
-	
-	
+
 	@GetMapping("/withdraw")
 	public String withdrawform(Model model) {
 		log.info("withdraw form accessed!!");
-		
-		model.addAttribute("withdrawDTO",new WithdrawDTO());
-		return"withdrawform";
+
+		model.addAttribute("withdrawDTO", new WithdrawDTO());
+		return "withdrawform";
 	}
-	
+
 	@PostMapping("/withdraw")
-	public  String withdraw(@Valid @ModelAttribute("withdrawDTO") WithdrawDTO withdrawDTO, BindingResult result, Model model,
-			RedirectAttributes redirectAttribute ) {
-		
+	public String withdraw(@Valid @ModelAttribute("withdrawDTO") WithdrawDTO withdrawDTO, BindingResult result,
+			Model model, RedirectAttributes redirectAttributes) {
+
 		log.info("Depositing amount: {} to account number: {}", withdrawDTO.getWithdrawAmount(),
 				withdrawDTO.getAccountNumber());
-		
-		
-		
-		
-		return "redirect:/bank/withdraw";		
+
+		if (result.hasErrors()) {
+			return "withdrawform";
+		}
+		try {
+
+		BankAccount bankAccount = bankService.withdraw(withdrawDTO);
+		redirectAttributes.addFlashAttribute("success",
+				"₹" + withdrawDTO.getWithdrawAmount() + " withdrawn successfully.");
+
+		redirectAttributes.addFlashAttribute("accountHolderName", bankAccount.getAccountHolderName());
+		redirectAttributes.addFlashAttribute("aadharNumber", bankAccount.getAadharNumber());
+
+
+		redirectAttributes.addFlashAttribute("accountNumber", bankAccount.getAccountNumber());
+
+		redirectAttributes.addFlashAttribute("remainingBalance", bankAccount.getAccountBalance());
+		redirectAttributes.addFlashAttribute("withdrawAmmount", withdrawDTO.getWithdrawAmount());
+		}
+
+		catch (Exception e) {
+
+			log.error("Error during deposit: {}", e.getMessage());
+
+			redirectAttributes.addFlashAttribute("error", e.getMessage());
+		}
+		return "redirect:/bank/withdraw";
 	}
-	
 
 }

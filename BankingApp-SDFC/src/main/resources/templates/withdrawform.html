@@ -15,6 +15,12 @@
 	<div class="form-container">
 
 		<div class="form-card">
+		<div class="success-message" th:if="${success}" id="successMessage">
+				<p th:text="${success}"></p>
+			</div>
+			<div class="error-message" th:if="${error}" id="errorMessage">
+				<p th:text="${error}"></p>
+			</div>
 
 			<h2>Withdraw Money</h2>
 
@@ -40,6 +46,49 @@
 
 				<button type="submit">Withdraw</button>
 			</form>
+
+<!-- Show only after successful deposit -->
+<div th:if="${success}">
+
+    <br>
+    <hr>
+
+    <h3>Account Information</h3>
+
+    <table class="account-info-table">
+
+        <tr>
+            <th>Account Holder Name</th>
+            <td th:text="${accountHolderName}"></td>
+        </tr>
+
+        <tr>
+            <th>Account Number</th>
+            <td th:text="${accountNumber}"></td>
+        </tr>
+
+        <tr>
+            <th>Aadhaar Number</th>
+            <td th:text="${'********' + #strings.substring(aadharNumber,8,12)}"></td>
+        </tr>
+
+        <tr>
+            <th>Withdraw Amount</th>
+            <td>₹ <span th:text="${withdrawAmmount}"></span></td>
+        </tr>
+
+        <tr>
+            <th>remainingBalance</th>
+            <td>₹ <span th:text="${remainingBalance}"></span></td>
+        </tr>
+
+    </table>
+
+
+</div>
+
+
+
 
 
 

@@ -11,7 +11,7 @@ import com.bank.entity.BankAccount;
 import com.bank.exception.AccountInactiveException;
 import com.bank.exception.AccountNotFoundException;
 import com.bank.exception.CustomerAlreadyExistsException;
-import com.bank.exception.InvalidAmountException;
+import com.bank.exception.InsufficientBalanceException;
 import com.bank.repositiory.BankRepository;
 import com.bank.util.AccountNumberGenerator;
 
@@ -120,11 +120,37 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public BankAccount withdraw(WithdrawDTO withdrawDTO) {
-		// TODO Auto-generated method stub
+	
+		log.info("withdrawDTO DTO:{}",withdrawDTO);
+		
+	
+	    BankAccount bankAccount = bankRepository
+	            .findByAccountNumberAndAadharNumber(
+	                    withdrawDTO.getAccountNumber(),
+	                    withdrawDTO.getAadharNumber())
+	            .orElseThrow(() ->
+	                    new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
+
+	   
+	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+	        throw new AccountInactiveException("Your account is inactive.");
+	    }
+
+	   
+	    if (withdrawDTO.getWithdrawAmount() > bankAccount.getAccountBalance()) {
+	        throw new InsufficientBalanceException("Insufficient account balance.");
+	    }
+
+	    
+	   
+	    bankAccount.setAccountBalance(
+	            bankAccount.getAccountBalance() - withdrawDTO.getWithdrawAmount());
+
+	    bankAccount.setUpdatedAt(LocalDateTime.now());
 		
 		
 		
-		return null;
+		return bankRepository.save(bankAccount);
 	}
 	
 	
