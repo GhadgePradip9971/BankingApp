@@ -249,7 +249,11 @@ public class BankController {
 	}
 
 	
-	
+	@GetMapping("/close")
+	public String closeAccount(Model model) {
+		log.info("account closed:");
+		return"closeaccountform";
+	}
 	
 	
 	
