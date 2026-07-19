@@ -17,6 +17,7 @@ public interface BankRepository extends JpaRepository<BankAccount, Integer> {
 
 	// Deposit
 	Optional<BankAccount> findByAccountNumberAndAadharNumber(String accountNumber, String aadharNumber);
+	
 
 	List<BankAccount> findByAccountHolderNameContainingIgnoreCase(String accountHolderName);
 
@@ -28,5 +29,7 @@ public interface BankRepository extends JpaRepository<BankAccount, Integer> {
 	Double getTotalBalance();
 
 	long countByAccountStatus(String accountStatus);
+
+	Optional<BankAccount> findByAccountNumber(String toAccountNumber);
 
 }

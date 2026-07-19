@@ -80,100 +80,109 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public Double checkBalance(String accountNumber, String phoneNumber, String aadharNumber) {
-		
+
 		log.info("Checking balance for account number: {}", accountNumber);
 		log.info("Checking balance for phone number: {}", phoneNumber);
 		log.info("Checking balance for aadhar number: {}", aadharNumber);
-		
-		
-		BankAccount bankAccount = bankRepository.findByAccountNumberAndPhoneNumberAndAadharNumber(accountNumber, phoneNumber, aadharNumber)
-	            .orElseThrow(() -> new AccountNotFoundException("\"Invalid Account Number, Phone Number or Aadhaar Number.\""));		
 
-	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
-	        throw new AccountInactiveException("Your account is inactive.");
-	    }
+		BankAccount bankAccount = bankRepository
+				.findByAccountNumberAndPhoneNumberAndAadharNumber(accountNumber, phoneNumber, aadharNumber)
+				.orElseThrow(() -> new AccountNotFoundException(
+						"\"Invalid Account Number, Phone Number or Aadhaar Number.\""));
 
-	    return bankAccount.getAccountBalance();
-		
-		
+		if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+			throw new AccountInactiveException("Your account is inactive.");
+		}
+
+		return bankAccount.getAccountBalance();
+
 	}
 
 	@Override
 	public BankAccount deposit(DepositDTO depositDTO) {
-		log.info("Deposit Dto values :{}",depositDTO);
-	
-		BankAccount bankAccount=bankRepository.findByAccountNumberAndAadharNumber(depositDTO.getAccountNumber(), depositDTO.getAadharNumber())
-	            .orElseThrow(() -> new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
+		log.info("Deposit Dto values :{}", depositDTO);
 
-	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
-	        throw new AccountInactiveException("Your account is inactive.");
-	    }
+		BankAccount bankAccount = bankRepository
+				.findByAccountNumberAndAadharNumber(depositDTO.getAccountNumber(), depositDTO.getAadharNumber())
+				.orElseThrow(() -> new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
 
-	    bankAccount.setAccountBalance(bankAccount.getAccountBalance() + depositDTO.getDepositAmount());
-	    bankAccount.setUpdatedAt(LocalDateTime.now());
+		if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+			throw new AccountInactiveException("Your account is inactive.");
+		}
 
-	  return  bankRepository.save(bankAccount);
-		
+		bankAccount.setAccountBalance(bankAccount.getAccountBalance() + depositDTO.getDepositAmount());
+		bankAccount.setUpdatedAt(LocalDateTime.now());
 
+		return bankRepository.save(bankAccount);
 
-		
 	}
 
 	@Override
 	public BankAccount withdraw(WithdrawDTO withdrawDTO) {
-	
-		log.info("withdrawDTO DTO:{}",withdrawDTO);
-		
-	
-	    BankAccount bankAccount = bankRepository
-	            .findByAccountNumberAndAadharNumber(
-	                    withdrawDTO.getAccountNumber(),
-	                    withdrawDTO.getAadharNumber())
-	            .orElseThrow(() ->
-	                    new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
 
-	   
-	    if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
-	        throw new AccountInactiveException("Your account is inactive.");
-	    }
+		log.info("withdrawDTO DTO:{}", withdrawDTO);
 
-	   
-	    if (withdrawDTO.getWithdrawAmount() > bankAccount.getAccountBalance()) {
-	        throw new InsufficientBalanceException("Insufficient account balance.");
-	    }
+		BankAccount bankAccount = bankRepository
+				.findByAccountNumberAndAadharNumber(withdrawDTO.getAccountNumber(), withdrawDTO.getAadharNumber())
+				.orElseThrow(() -> new AccountNotFoundException("Invalid Account Number or Aadhaar Number."));
 
-	    
-	   
-	    bankAccount.setAccountBalance(
-	            bankAccount.getAccountBalance() - withdrawDTO.getWithdrawAmount());
+		if (!"ACTIVE".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+			throw new AccountInactiveException("Your account is inactive.");
+		}
 
-	    bankAccount.setUpdatedAt(LocalDateTime.now());
-		
-		
-		
+		if (withdrawDTO.getWithdrawAmount() > bankAccount.getAccountBalance()) {
+			throw new InsufficientBalanceException("Insufficient account balance.");
+		}
+
+		bankAccount.setAccountBalance(bankAccount.getAccountBalance() - withdrawDTO.getWithdrawAmount());
+
+		bankAccount.setUpdatedAt(LocalDateTime.now());
+
 		return bankRepository.save(bankAccount);
 	}
 
 	@Override
 	public BankAccount transfer(TransferDTO transferDTO) {
-		// TODO Auto-generated method stub
-		return null;
+
+		log.info("Transfer Request:{}", transferDTO);
+		BankAccount sender = bankRepository
+				.findByAccountNumberAndAadharNumber(transferDTO.getFromAccountNumber(), transferDTO.getAadharNumber())
+				.orElseThrow(() -> new AccountNotFoundException("Invalid Sender Account Number or Aadhar Number"));
+		// Receiver Account
+		BankAccount receiver = bankRepository.findByAccountNumber(transferDTO.getToAccountNumber())
+				.orElseThrow(() -> new AccountNotFoundException("Receiver account not found."));
+
+		// Sender Active
+		if (!"ACTIVE".equalsIgnoreCase(sender.getAccountStatus())) {
+			throw new AccountInactiveException("Sender account is inactive.");
+		}
+
+		// Receiver Active
+		if (!"ACTIVE".equalsIgnoreCase(receiver.getAccountStatus())) {
+			throw new AccountInactiveException("Receiver account is inactive.");
+
+		}
+//same account
+		if (sender.getAccountNumber().equals(receiver.getAccountNumber())) {
+			throw new IllegalArgumentException("Sender and Receiver accounts cannot be the same.");
+		}
+
+		// Balance Check
+		if (sender.getAccountBalance() < transferDTO.getTransferAmount()) {
+			throw new InsufficientBalanceException("Insufficient account balance.");
+		}
+		// Debit Sender
+		sender.setAccountBalance(sender.getAccountBalance() - transferDTO.getTransferAmount());
+
+		sender.setUpdatedAt(LocalDateTime.now());
+
+		// Credit Receiver
+		receiver.setAccountBalance(receiver.getAccountBalance() + transferDTO.getTransferAmount());
+		receiver.setUpdatedAt(LocalDateTime.now());
+		bankRepository.save(sender);
+		bankRepository.save(receiver);
+//transaction History will be added letter:
+		return sender;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

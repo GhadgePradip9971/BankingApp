@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bank.dto.BalanceDTO;
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
+import com.bank.dto.TransferDTO;
 import com.bank.dto.WithdrawDTO;
 import com.bank.entity.BankAccount;
 import com.bank.service.BankService;
@@ -182,18 +183,17 @@ public class BankController {
 		}
 		try {
 
-		BankAccount bankAccount = bankService.withdraw(withdrawDTO);
-		redirectAttributes.addFlashAttribute("success",
-				"₹" + withdrawDTO.getWithdrawAmount() + " withdrawn successfully.");
+			BankAccount bankAccount = bankService.withdraw(withdrawDTO);
+			redirectAttributes.addFlashAttribute("success",
+					"₹" + withdrawDTO.getWithdrawAmount() + " withdrawn successfully.");
 
-		redirectAttributes.addFlashAttribute("accountHolderName", bankAccount.getAccountHolderName());
-		redirectAttributes.addFlashAttribute("aadharNumber", bankAccount.getAadharNumber());
+			redirectAttributes.addFlashAttribute("accountHolderName", bankAccount.getAccountHolderName());
+			redirectAttributes.addFlashAttribute("aadharNumber", bankAccount.getAadharNumber());
 
+			redirectAttributes.addFlashAttribute("accountNumber", bankAccount.getAccountNumber());
 
-		redirectAttributes.addFlashAttribute("accountNumber", bankAccount.getAccountNumber());
-
-		redirectAttributes.addFlashAttribute("remainingBalance", bankAccount.getAccountBalance());
-		redirectAttributes.addFlashAttribute("withdrawAmmount", withdrawDTO.getWithdrawAmount());
+			redirectAttributes.addFlashAttribute("remainingBalance", bankAccount.getAccountBalance());
+			redirectAttributes.addFlashAttribute("withdrawAmmount", withdrawDTO.getWithdrawAmount());
 		}
 
 		catch (Exception e) {
@@ -205,13 +205,60 @@ public class BankController {
 		return "redirect:/bank/withdraw";
 	}
 
-	
-	
 	@GetMapping("/transfer")
 	public String transferPage(Model model) {
 		log.info("transfer page accessed");
-		
+		model.addAttribute("transferDTO", new TransferDTO());
 		return "transferform";
-		
+
 	}
+
+	@PostMapping("/transfer")
+	public String transfer(@Valid @ModelAttribute("transferDTO") TransferDTO transferDTO, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+
+		log.error("transfer is initiated:{}", transferDTO);
+		if (result.hasErrors()) {
+			return "transferform";
+		}
+
+		try {
+		BankAccount sender = bankService.transfer(transferDTO);
+		redirectAttributes.addFlashAttribute("success",
+				"₹ " + transferDTO.getTransferAmount() + " transferred successfully.");
+
+		redirectAttributes.addFlashAttribute("accountHolderName", sender.getAccountHolderName());
+
+		redirectAttributes.addFlashAttribute("accountNumber", sender.getAccountNumber());
+		redirectAttributes.addFlashAttribute("receiverAccountNumber",transferDTO.getToAccountNumber());
+		redirectAttributes.addFlashAttribute("aadharNumber", sender.getAadharNumber());
+		redirectAttributes.addFlashAttribute("transferAmount", transferDTO.getTransferAmount());
+
+
+
+		redirectAttributes.addFlashAttribute("remainingBalance", sender.getAccountBalance());
+	}
+		catch (Exception e) {
+
+			log.error("Error during deposit: {}", e.getMessage());
+
+			redirectAttributes.addFlashAttribute("error", e.getMessage());
+		}
+
+		return "redirect:/bank/transfer";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

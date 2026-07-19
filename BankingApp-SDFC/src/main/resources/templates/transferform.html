@@ -15,20 +15,107 @@
 	<div class="form-container">
 
 		<div class="form-card">
+		<div class="success-message" th:if="${success}" id="successMessage">
+				<p th:text="${success}"></p>
+			</div>
+			<div class="error-message" th:if="${error}" id="errorMessage">
+				<p th:text="${error}"></p>
+			</div>
 
 			<h2>Transfer Money</h2>
 
 			<form th:action="@{/bank/transfer}" th:object="${transferDTO}"
 				method="post">
-				
-				<label>Transfer Money</label>
-				
-				
-				
-				
-				
-				
-				</form>
+
+
+				<label>From Account Number</label> <input type="text"
+					th:field="*{fromAccountNumber}"
+					placeholder="Enter Sender Account Number"> <span
+					class="field-error"
+					th:if="${#fields.hasErrors('fromAccountNumber')}"
+					th:errors="*{fromAccountNumber}"> </span> <br> <label>To
+					Account Number</label> <input type="text" th:field="*{toAccountNumber}"
+					placeholder="Enter Receiver Account Number"> <span
+					class="field-error" th:if="${#fields.hasErrors('toAccountNumber')}"
+					th:errors="*{toAccountNumber}"> </span> <br> <label>Aadhaar
+					Number</label> <input type="text" th:field="*{aadharNumber}"
+					placeholder="Enter Aadhaar Number"> <span
+					class="field-error" th:if="${#fields.hasErrors('aadharNumber')}"
+					th:errors="*{aadharNumber}"> </span> <br> <label>Transfer
+					Amount</label> <input type="number" th:field="*{transferAmount}" min="1"
+					step="0.01" placeholder="Enter Transfer Amount"> <span
+					class="field-error" th:if="${#fields.hasErrors('transferAmount')}"
+					th:errors="*{transferAmount}"> </span> <br> <label>Description</label>
+
+				<textarea th:field="*{description}" rows="3"
+					placeholder="Enter Description (Optional)">
+</textarea>
+
+				<span class="field-error"
+					th:if="${#fields.hasErrors('description')}"
+					th:errors="*{description}"> </span> <br>
+
+				<button type="submit">Transfer Money</button>
+
+
+
+
+
+
+			</form>
+		<!-- Show only after successful deposit -->
+<div th:if="${success}">
+
+    <br>
+    <hr>
+
+    <h3>Account Information</h3>
+
+    <table class="account-info-table">
+
+        <tr>
+            <th>Account Holder Name</th>
+            <td th:text="${accountHolderName}"></td>
+        </tr>
+
+        <tr>
+            <th>Account Number</th>
+            <td th:text="${accountNumber}"></td>
+        </tr>
+         <tr>
+            <th>Reciever Account Number</th>
+            <td th:text="${receiverAccountNumber}"></td>
+        </tr>
+
+        <tr>
+            <th>Aadhaar Number</th>
+            <td th:text="${'********' + #strings.substring(aadharNumber,8,12)}"></td>
+        </tr>
+
+        <tr>
+            <th>Transfer Amount</th>
+            <td>₹ <span th:text="${transferAmount}"></span></td>
+        </tr>
+
+        <tr>
+            <th>Remaining Balance</th>
+            <td>₹ <span th:text="${remainingBalance}"></span></td>
+        </tr>
+
+
+
+
+
+    </table>
+
+
+</div>	
+			
+			
+			
+			
+			
+			
 		</div>
 	</div>
 
