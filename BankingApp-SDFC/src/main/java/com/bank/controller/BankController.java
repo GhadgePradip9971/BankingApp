@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bank.dto.BalanceDTO;
+import com.bank.dto.CloseAccountDTO;
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
 import com.bank.dto.TransferDTO;
@@ -223,22 +224,19 @@ public class BankController {
 		}
 
 		try {
-		BankAccount sender = bankService.transfer(transferDTO);
-		redirectAttributes.addFlashAttribute("success",
-				"₹ " + transferDTO.getTransferAmount() + " transferred successfully.");
+			BankAccount sender = bankService.transfer(transferDTO);
+			redirectAttributes.addFlashAttribute("success",
+					"₹ " + transferDTO.getTransferAmount() + " transferred successfully.");
 
-		redirectAttributes.addFlashAttribute("accountHolderName", sender.getAccountHolderName());
+			redirectAttributes.addFlashAttribute("accountHolderName", sender.getAccountHolderName());
 
-		redirectAttributes.addFlashAttribute("accountNumber", sender.getAccountNumber());
-		redirectAttributes.addFlashAttribute("receiverAccountNumber",transferDTO.getToAccountNumber());
-		redirectAttributes.addFlashAttribute("aadharNumber", sender.getAadharNumber());
-		redirectAttributes.addFlashAttribute("transferAmount", transferDTO.getTransferAmount());
+			redirectAttributes.addFlashAttribute("accountNumber", sender.getAccountNumber());
+			redirectAttributes.addFlashAttribute("receiverAccountNumber", transferDTO.getToAccountNumber());
+			redirectAttributes.addFlashAttribute("aadharNumber", sender.getAadharNumber());
+			redirectAttributes.addFlashAttribute("transferAmount", transferDTO.getTransferAmount());
 
-
-
-		redirectAttributes.addFlashAttribute("remainingBalance", sender.getAccountBalance());
-	}
-		catch (Exception e) {
+			redirectAttributes.addFlashAttribute("remainingBalance", sender.getAccountBalance());
+		} catch (Exception e) {
 
 			log.error("Error during deposit: {}", e.getMessage());
 
@@ -248,21 +246,44 @@ public class BankController {
 		return "redirect:/bank/transfer";
 	}
 
-	
 	@GetMapping("/close")
-	public String closeAccount(Model model) {
+	public String closeAccountForm(Model model) {
 		log.info("account closed:");
-		return"closeaccountform";
+		model.addAttribute("closeAccountDTO", new CloseAccountDTO());
+		return "closeaccountform";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@PostMapping("/close")
+	public String closeAccount(@Valid @ModelAttribute("closeAccountDTO") CloseAccountDTO closeAccountDTO,
+			BindingResult result, RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {
+
+			return "closeaccountform";
+		}
+
+		try {
+			BankAccount bankAccount = bankService.closed(closeAccountDTO);
+
+			redirectAttributes.addFlashAttribute("success", "Account closed successfully.");
+
+			redirectAttributes.addFlashAttribute("accountNumber", bankAccount.getAccountNumber());
+
+			redirectAttributes.addFlashAttribute("accountHolderName", bankAccount.getAccountHolderName());
+
+		} catch (Exception e) {
+			log.error("Error during deposit: {}", e.getMessage());
+
+			redirectAttributes.addFlashAttribute("error", e.getMessage());
+		}
+
+		return "redirect:/bank/close";
+
+	}
+
+	@GetMapping("/about")
+	public String aoutPage() {
+		return "aboutus";
+	}
+
 }

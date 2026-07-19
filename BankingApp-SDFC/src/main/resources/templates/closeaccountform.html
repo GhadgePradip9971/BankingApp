@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDFC BANK · Home</title>
+<title>SDFC BANK · CloseAccount</title>
 <link rel="icon" th:href="@{/images/bank.png}" type="image/png">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
@@ -15,14 +15,51 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 
+
 	<div class="form-container">
 
 		<div class="form-card">
-		
-		
-		
+			<div class="success-message" th:if="${success}" id="successMessage">
+				<p th:text="${success}"></p>
+			</div>
+			<div class="error-message" th:if="${error}" id="errorMessage">
+				<p th:text="${error}"></p>
+			</div>
+
+			<h2>Close Account</h2>
+
+			<form th:action="@{/bank/close}" th:object="${closeAccountDTO}"
+				method="post">
+
+
+
+
+				<label>Account Number</label> <input type="text"
+					th:field="*{accountNumber}"> <span
+					th:if="${#fields.hasErrors('accountNumber')}"
+					th:errors="*{accountNumber}"> </span> <br> <label>Aadhaar
+					Number</label> <input type="text" th:field="*{aadharNumber}"> <span
+					th:if="${#fields.hasErrors('aadharNumber')}"
+					th:errors="*{aadharNumber}"> </span> <br>
+
+				<button type="submit">Close Account</button>
+
+
+
+
+
+			</form>
+
+
+
+
+
+
+
+
+
 		</div>
-		</div>
-		
-		
-		<div th:replace="~{fragments/footer :: footer}"></div>
+	</div>
+
+
+	<div th:replace="~{fragments/footer :: footer}"></div>

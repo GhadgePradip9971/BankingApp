@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
+import com.bank.dto.CloseAccountDTO;
 import com.bank.dto.DepositDTO;
 import com.bank.dto.OpenAccountDTO;
 import com.bank.dto.TransferDTO;
@@ -183,6 +184,40 @@ public class BankServiceImpl implements BankService {
 		bankRepository.save(receiver);
 //transaction History will be added letter:
 		return sender;
+	}
+
+	@Override
+	public BankAccount closed(CloseAccountDTO closeAccountDTO) {
+		
+		log.info("closed account :{}",closeAccountDTO);
+		
+		BankAccount bankAccount = bankRepository
+	            .findByAccountNumberAndAadharNumber(
+	                    closeAccountDTO.getAccountNumber(),
+	                    closeAccountDTO.getAadharNumber())
+	            .orElseThrow(() ->
+	                    new AccountNotFoundException(
+	                            "Invalid Account Number or Aadhaar Number."));
+		
+		
+		  // Already Closed
+	    if ("CLOSED".equalsIgnoreCase(bankAccount.getAccountStatus())) {
+
+	        throw new AccountInactiveException(
+	                "Account is already closed.");
+	    }
+	    // Check Balance
+	    if (bankAccount.getAccountBalance() > 0) {
+
+	        throw new IllegalStateException(
+	                "Please withdraw the remaining balance before closing the account.");
+	    }
+	    bankAccount.setAccountStatus("CLOSED");
+
+	    bankAccount.setUpdatedAt(LocalDateTime.now());
+		
+		
+		return bankRepository.save(bankAccount);
 	}
 
 }

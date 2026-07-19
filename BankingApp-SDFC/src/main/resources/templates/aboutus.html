@@ -1,28 +1,130 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDFC BANK · Home</title>
+<title>SDFC BANK · About Us</title>
+
 <link rel="icon" th:href="@{/images/bank.png}" type="image/png">
 <link rel="stylesheet" th:href="@{/css/style.css}">
-
 </head>
 
 <body>
-	<div th:replace="~{fragments/header :: header}"></div>
-	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-	<div class="form-container">
+    <div class="form-container">
 
-		<div class="form-card">
-		
-		
-		
-		</div>
-		</div>
-		
-		
-		<div th:replace="~{fragments/footer :: footer}"></div>
+        <div class="form-card">
+
+            <h2>About SDFC Bank</h2>
+
+            <p>
+                <strong>Welcome to SDFC Bank!</strong>
+            </p>
+
+            <p>
+                SDFC Bank is a modern digital banking application developed using
+                Java, Spring Boot, Spring MVC, Thymeleaf, Spring Data JPA, and
+                MySQL. The application demonstrates real-world banking operations
+                with a simple, secure, and user-friendly interface.
+            </p>
+
+            <hr>
+
+            <h3>🎯 Our Mission</h3>
+
+            <p>
+                To provide secure, reliable, and efficient banking services while
+                following modern software engineering practices and enterprise
+                application architecture.
+            </p>
+
+            <h3>👁 Our Vision</h3>
+
+            <p>
+                To build a scalable and secure banking platform that simulates
+                real-world banking systems and continuously evolves with advanced
+                enterprise features.
+            </p>
+
+            <h3>🏦 Banking Services</h3>
+
+            <ul>
+                <li>Open New Bank Account</li>
+                <li>Deposit Money</li>
+                <li>Withdraw Money</li>
+                <li>Transfer Money</li>
+                <li>Check Account Balance</li>
+                <li>Search Customer Accounts</li>
+                <li>Close Bank Account</li>
+                <li>View Transaction History</li>
+            </ul>
+
+            <h3>🔒 Security Features</h3>
+
+            <ul>
+                <li>Input Validation</li>
+                <li>Global Exception Handling</li>
+                <li>Secure Database Operations</li>
+                <li>Transaction Validation</li>
+                <li>Enterprise Layered Architecture</li>
+                <li>Future Spring Security Integration</li>
+            </ul>
+
+            <h3>💻 Technology Stack</h3>
+
+            <ul>
+                <li>Java</li>
+                <li>Spring Boot</li>
+                <li>Spring MVC</li>
+                <li>Spring Data JPA</li>
+                <li>Hibernate</li>
+                <li>Thymeleaf</li>
+                <li>MySQL</li>
+                <li>HTML5 & CSS3</li>
+                <li>Maven</li>
+                <li>Git & GitHub</li>
+            </ul>
+
+            <h3>🚀 Future Enhancements</h3>
+
+            <ul>
+                <li>Customer Login & Registration</li>
+                <li>Spring Security Authentication</li>
+                <li>Role-Based Authorization</li>
+                <li>Transaction History</li>
+                <li>Email Notifications</li>
+                <li>OTP Verification</li>
+                <li>Beneficiary Management</li>
+                <li>Admin Dashboard</li>
+                <li>Employee Dashboard</li>
+                <li>Customer Dashboard</li>
+                <li>Account Profile Management</li>
+            </ul>
+
+            <h3>🤝 Our Commitment</h3>
+
+            <p>
+                We are committed to building a secure, scalable, and maintainable
+                banking application by following clean coding standards, layered
+                architecture, and enterprise development practices. Every feature
+                is designed to provide a reliable and seamless banking experience.
+            </p>
+
+            <hr>
+
+            <p style="text-align:center;">
+                <strong>SDFC Bank</strong><br>
+                <em>"Secure Banking. Smart Banking. Simple Banking."</em>
+            </p>
+
+        </div>
+
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
