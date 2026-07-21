@@ -1,115 +1,146 @@
+
 # 🏦 SDFC Banking Application
 
-A full-stack Banking Management System developed using **Java, Spring Boot, Spring MVC, Thymeleaf, Spring Data JPA, Hibernate, and MySQL**. This project simulates real-world banking operations such as account creation, deposits, withdrawals, fund transfers, and balance inquiries while following a layered architecture and industry best practices.
+> **A production-inspired Banking Management System built using Java, Spring Boot, Spring MVC, Thymeleaf, Spring Data JPA, Hibernate, and MySQL.**
+---
+
+# 🌐 Live Demo
+
+🚀 **Application URL**
+
+```
+https://sdfcbank.onrender.com/
+``
+
+# 📖 Overview
+
+The **SDFC Banking Application** is a full-stack web application that simulates real-world banking operations. It enables customers to manage their accounts through a secure and intuitive interface while demonstrating enterprise-level Java backend development concepts.
+
+This project follows the **Spring MVC architecture** with a layered design, making it scalable, maintainable, and suitable for real-world banking systems.
 
 ---
 
-## 📌 Project Overview
+# ✨ Current Features
 
-The SDFC Banking Application is designed to provide secure and efficient banking services through a user-friendly web interface. It demonstrates the implementation of core banking functionalities using modern Java technologies and follows the MVC architecture for better maintainability and scalability.
+### 👤 Account Management
 
----
+* ✅ Open New Account
+* ✅ Search Account
+* ✅ View Account Details
 
-## 🚀 Features
+### 💰 Banking Operations
 
-### Current Features
+* ✅ Deposit Money
+* ✅ Withdraw Money
+* ✅ Transfer Funds
+* ✅ Balance Enquiry
 
-- ✅ Open New Bank Account
-- ✅ Deposit Money
-- ✅ Withdraw Money
-- ✅ Transfer Funds Between Accounts
-- ✅ Check Account Balance
-- ✅ Search Account Details
-- ✅ Form Validation
-- ✅ Exception Handling
-- ✅ Responsive UI with Thymeleaf
-- ✅ Layered Architecture (Controller → Service → Repository)
-- ✅ Database Integration using MySQL
+### ✔ Validation
 
----
+* Bean Validation
+* Server-side Validation
+* Exception Handling
+* Custom Error Messages
 
-## 🛠️ Technology Stack
+### 🎨 User Interface
 
-### Backend
-
-- Java 17
-- Spring Boot
-- Spring MVC
-- Spring Data JPA
-- Hibernate
-- Maven
-
-### Frontend
-
-- Thymeleaf
-- HTML5
-- CSS3
-- JavaScript
-
-### Database
-
-- MySQL
-
-### Tools
-
-- Eclipse / Spring Tool Suite
-- VS Code
-- Git
-- GitHub
-- Maven
-- Postman
+* Responsive UI
+* Thymeleaf Templates
+* Reusable Header/Footer Fragments
+* CSS Styling
 
 ---
 
-## 📂 Project Structure
+# 🏗️ Technology Stack
+
+| Category        | Technologies               |
+| --------------- | -------------------------- |
+| Language        | Java 17                    |
+| Framework       | Spring Boot                |
+| Architecture    | Spring MVC                 |
+| ORM             | Spring Data JPA, Hibernate |
+| Template Engine | Thymeleaf                  |
+| Validation      | Bean Validation            |
+| Database        | MySQL                      |
+| Build Tool      | Maven                      |
+| Version Control | Git, GitHub                |
+| Deployment      | Render                     |
+
+---
+
+# 📂 Project Structure
 
 ```
 src
-├── main
-│   ├── java
-│   │   └── com.sdfc.bank
-│   │       ├── controller
-│   │       ├── service
-│   │       ├── repository
-│   │       ├── entity
-│   │       ├── dto
-│   │       ├── exception
-│   │       ├── util
-│   │       └── config
-│   │
-│   └── resources
-│       ├── templates
-│       ├── static
-│       └── application.properties
 │
-└── test
+├── controller
+│
+├── service
+│
+├── repository
+│
+├── entity
+│
+├── dto
+│
+├── exception
+│
+├── util
+│
+├── config
+│
+├── templates
+│
+├── static
+│
+└── application.properties
 ```
 
 ---
 
-## ⚙️ Installation & Setup
+# 🏛️ Architecture
 
-### Clone Repository
+```
+                User
+
+                 │
+
+                 ▼
+
+          Spring MVC Controller
+
+                 │
+
+                 ▼
+
+          Business Service Layer
+
+                 │
+
+                 ▼
+
+      Spring Data JPA Repository
+
+                 │
+
+                 ▼
+
+             MySQL Database
+```
+
+---
+
+# ⚙️ How to Run
+
+## Clone Repository
 
 ```bash
-git clone https://github.com/GhadgePradip9971/your-repository-name.git
+git clone https://github.com/GhadgePradip9971/RepositoryName.git
 ```
 
-### Navigate to Project
+---
 
-```bash
-cd your-repository-name
-```
-
-### Configure Database
-
-Create a MySQL database.
-
-```sql
-CREATE DATABASE sdfc_bank;
-```
-
-Update `application.properties`
+## Configure Database
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/sdfc_bank
@@ -117,174 +148,208 @@ spring.datasource.username=root
 spring.datasource.password=your_password
 ```
 
-### Run Application
+---
+
+## Build
+
+```bash
+mvn clean install
+```
+
+---
+
+## Run
 
 ```bash
 mvn spring-boot:run
 ```
 
-or
+---
 
-Run the project directly from Eclipse / STS.
+# 📷 Application Screenshots
+
+| Module       | Screenshot  |
+| ------------ | ----------- |
+| Home         | Coming Soon |
+| Open Account | Coming Soon |
+| Deposit      | Coming Soon |
+| Withdraw     | Coming Soon |
+| Transfer     | Coming Soon |
+| Balance      | Coming Soon |
 
 ---
 
-## 📷 Screens
+# 📋 Implemented Modules
 
-- Home Page
-- Open Account
-- Deposit
-- Withdraw
-- Transfer
-- Balance Enquiry
-- Search Account
-
-*(Screenshots will be added soon.)*
-
----
-
-## 🏛️ Application Architecture
-
-```
-Browser
-    │
-    ▼
-Spring MVC Controller
-    │
-    ▼
-Service Layer
-    │
-    ▼
-Repository (Spring Data JPA)
-    │
-    ▼
-MySQL Database
-```
+| Module             | Status |
+| ------------------ | ------ |
+| Open Account       | ✅      |
+| Deposit            | ✅      |
+| Withdraw           | ✅      |
+| Transfer           | ✅      |
+| Balance Enquiry    | ✅      |
+| Search Account     | ✅      |
+| Validation         | ✅      |
+| Exception Handling | ✅      |
+| Responsive UI      | ✅      |
 
 ---
 
-## 🔒 Validation
+# 🚀 Future Enhancements
 
-The application uses Bean Validation annotations such as:
+## 🔐 Security
 
-- @NotBlank
-- @NotNull
-- @Pattern
-- @Email
-- @DecimalMin
-
----
-
-## 📈 Future Enhancements
-
-### Security
-
-- Spring Security
-- Customer Login
-- Admin Login
-- Role-Based Authorization
-- BCrypt Password Encryption
-- Forgot Password
-- Change Password
-
-### Banking Features
-
-- Transaction History
-- Mini Statement
-- Passbook
-- Account Statement (PDF)
-- Beneficiary Management
-- Scheduled Transfers
-- Fixed Deposit Module
-- Loan Management
-- Interest Calculation
-
-### Notifications
-
-- Email Alerts
-- OTP Verification
-- Transaction Notifications
-
-### Reports
-
-- PDF Export
-- Excel Export
-- Printable Statements
-
-### REST API
-
-- RESTful APIs
-- Swagger/OpenAPI Documentation
-- Postman Collection
-
-### Performance
-
-- Spring Cache
-- Logging
-- Spring Boot Actuator
-- Monitoring
-
-### Deployment
-
-- Docker
-- Docker Compose
-- Railway
-- Render
-- AWS EC2
-
-### Additional Improvements
-
-- Audit Logs
-- Pagination & Sorting
-- Search Filters
-- Dashboard Analytics
-- Dark Mode
-- Responsive Bootstrap UI
-- Unit & Integration Testing
-- Global Exception Handling
+* Spring Security
+* Customer Login
+* Admin Login
+* Role Based Authentication
+* Password Encryption
+* Forgot Password
+* Change Password
 
 ---
 
-## 📚 Learning Objectives
+## 💳 Banking
 
-This project demonstrates practical implementation of:
-
-- Spring Boot
-- Spring MVC
-- Spring Data JPA
-- Hibernate ORM
-- Thymeleaf
-- Bean Validation
-- Layered Architecture
-- MVC Design Pattern
-- CRUD Operations
-- Database Integration
-- Exception Handling
+* Mini Statement
+* Transaction History
+* Passbook
+* PDF Statement
+* Beneficiary Management
+* Fixed Deposit
+* Loan Module
+* Interest Calculator
 
 ---
 
-## 👨‍💻 Author
+## 📊 Admin Dashboard
+
+* Customer Management
+* Account Management
+* Total Deposits
+* Total Customers
+* Total Transactions
+* Dashboard Analytics
+* Charts
+
+---
+
+## 📧 Notifications
+
+* Email Alerts
+* OTP Verification
+* Welcome Email
+* Transaction Notifications
+
+---
+
+## 🌐 REST APIs
+
+* RESTful Services
+* Swagger/OpenAPI
+* Postman Collection
+
+---
+
+## 📄 Reports
+
+* PDF Export
+* Excel Export
+* Printable Statements
+
+---
+
+## ⚡ Performance
+
+* Spring Cache
+* Logging
+* Spring Boot Actuator
+* Monitoring
+
+---
+
+## ☁ Deployment
+
+* Docker
+* Docker Compose
+* AWS EC2
+* Railway
+* Render
+
+---
+
+# 🧪 Planned Testing
+
+* Unit Testing
+* Integration Testing
+* MockMvc
+* JUnit 5
+* Mockito
+
+---
+
+# 📚 Learning Outcomes
+
+This project demonstrates hands-on experience with:
+
+* Java
+* Spring Boot
+* Spring MVC
+* Spring Data JPA
+* Hibernate
+* Thymeleaf
+* MySQL
+* Bean Validation
+* MVC Architecture
+* CRUD Operations
+* Layered Architecture
+* Exception Handling
+* Git & GitHub
+* Cloud Deployment
+
+---
+
+# 🗺️ Project Roadmap
+
+| Feature                   | Status      |
+| ------------------------- | ----------- |
+| Banking Operations        | ✅ Completed |
+| Thymeleaf UI              | ✅ Completed |
+| Validation                | ✅ Completed |
+| MySQL Integration         | ✅ Completed |
+| Cloud Deployment (Render) | ✅ Completed |
+| Spring Security           | 🔄 Planned  |
+| REST APIs                 | 🔄 Planned  |
+| Docker                    | 🔄 Planned  |
+| Email Notifications       | 🔄 Planned  |
+| Dashboard Analytics       | 🔄 Planned  |
+| PDF Statements            | 🔄 Planned  |
+| Excel Reports             | 🔄 Planned  |
+| Unit Testing              | 🔄 Planned  |
+
+---
+
+# 👨‍💻 Developer
 
 **Pradip Ghadge**
 
-Java Full Stack Developer
-
 📍 Pune, Maharashtra
 
-GitHub: https://github.com/GhadgePradip9971
+📧 [pradipghadge17@gmail.com](mailto:pradipghadge17@gmail.com)
 
-LinkedIn: https://www.linkedin.com/in/pradip-ghadge
+💼 LinkedIn
+[https://www.linkedin.com/in/pradip-ghadge](https://www.linkedin.com/in/pradip-ghadge)
 
-Email: pradipghadge17@gmail.com
-
----
-
-## ⭐ Future Vision
-
-This project is continuously evolving into a production-ready Internet Banking System by incorporating modern Java technologies, secure authentication, REST APIs, cloud deployment, monitoring, testing, and enterprise-level best practices.
+💻 GitHub
+[https://github.com/GhadgePradip9971](https://github.com/GhadgePradip9971)
 
 ---
 
-## 📄 License
+# ⭐ If you like this project
 
-This project is developed for educational, learning, and portfolio purposes.
+Please ⭐ the repository.
+
+It motivates me to continue improving this project.
+
+---
+
